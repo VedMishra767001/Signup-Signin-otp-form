@@ -4,7 +4,7 @@
 
 session_start();
 try {
-    $con = new PDO('mysql: host=localhost; dbname=databse', 'username', 'password');
+    $con = new PDO('mysql: host=localhost; dbname=id19512279_db', 'id19512279_dbu', '(e8jT%ViCa^r<p=~');
 }
 catch (PDOException $e){
 die("Error : ".$e->getMessage()."<br/>");
@@ -17,7 +17,6 @@ $username=filter_var($_POST['username'], FILTER_SANITIZE_STRING);
 $email=filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 $password=$_POST['password'];
 $confirm_password=$_POST['confirm_password'];
-$agreement=$_POST['agreement'];
 $hash=password_hash($password=$_POST['password'], PASSWORD_BCRYPT);
 $stmt = $con->prepare("select * from accounts where username= ?");
 $stmt->execute([$username]);
@@ -54,7 +53,7 @@ if (isset($username) && $username) {
 
 //Checking if the user has agreed to the privacy policy
 
-            if (isset($agreement)) {
+            if (isset($_POST['agreement'])) {
 
              /* Returning the response 8, after successfully inserting the posted form input values into the database */ echo json_encode(array('success' => '8'));
 

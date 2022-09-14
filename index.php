@@ -6,7 +6,7 @@ session_start();
 //Connecting to the database
 
 try {
-    $con = new PDO('mysql: host=localhost; dbname=database', 'username', 'password');
+    $con = new PDO('mysql: host=localhost; dbname=id19512279_db', 'id19512279_dbu', '(e8jT%ViCa^r<p=~');
 }
 catch (PDOException $e){
 die("Error : ".$e->getMessage()."<br/>");
@@ -15,14 +15,17 @@ die("Error : ".$e->getMessage()."<br/>");
 
 //Declaring the variables
 
-$success = "<div id='message_success'><h4>Your Account has been Successfully Created</h4></div><script type='text/javascript' defer>$('input').removeClass('border-2 border-red-500'); </script>'";
-$failure = "<div id='message_error'><h4>Wrong OTP</h4></div><script text/javascript defer>$('#signUp').hide(); $('#otpform').show(); $('#otp').addClass('border-2 border-red-500');</script>";
-$input_username = (isset($_POST['username'])) ? ($_SESSION['username'] ?? $_SESSION['username'] = $_POST['username']) : "";
-$input_email = (isset($_POST['email'])) ? ($_SESSION['email'] ?? $_SESSION['email'] = $_POST['email']) : "";
-$input_password = (isset($_POST['password'])) ? ($_SESSION['password'] ?? $_SESSION['password'] = $_POST['password']) : "";
-$input_otp = (isset($_POST['otp'])) ? ($_SESSION['otp'] ?? $_SESSION['otp'] = $_REQUEST['otp']) : "";
+$success = "<div class='message_success'><h4>Your Account has been Successfully Created</h4></div><script type='text/javascript' defer>$('input').removeClass('border-2 border-red-500'); </script>'";
+$failure = "<div class='message_error'><h4>Wrong OTP</h4></div><script text/javascript defer>$('#signUp').hide(); $('#otpform').show(); $('#otp').addClass('border-2 border-red-500');</script>";
 
-
+while($_POST['confirm_password'] != "") {
+$username = $_SESSION['username'] ?? $_SESSION['username'] = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+    
+    $email = $_SESSION['email'] ?? $_SESSION['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    
+    $password = $_SESSION['password'] ?? $_SESSION['password'] = $_POST['password']; 
+    break;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -59,10 +62,10 @@ $input_otp = (isset($_POST['otp'])) ? ($_SESSION['otp'] ?? $_SESSION['otp'] = $_
  form {
      @apply block;
  }
- #message_success {
+ .message_success {
      @apply bg-green-100 text-green-800 text-center border-b-2 border-b-green-800 p-1 fixed top-0 w-full;
  }
- #message_error {
+ .message_error {
     @apply bg-red-100 text-red-800 text-center border-b-2 border-b-red-800 p-1 fixed top-0 w-full;
  }
  #signIn, #otpform {
@@ -72,6 +75,8 @@ $input_otp = (isset($_POST['otp'])) ? ($_SESSION['otp'] ?? $_SESSION['otp'] = $_
 </head>
 <body>
 <main>
+    
+    
 <!-- Sign Up Form -->
 
 <form id='signUp' method='post'>
@@ -138,6 +143,7 @@ $input_otp = (isset($_POST['otp'])) ? ($_SESSION['otp'] ?? $_SESSION['otp'] = $_
 </footer>
 <script type='text/javascript'>
 
+
 //Sign up ajax
 
 $(document).ready(function() {
@@ -154,52 +160,53 @@ $(document).ready(function() {
                 
  // appending an error message to body if username input value is empty 
 
- if (jsonData.success == "0") { $('body').append("<div id='message_error'><h4>You Need to Specify an Username for Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#username').addClass('border-2 border-red-500'); }
+ if (jsonData.success == "0") { $('body').append("<div class='message_error'><h4>You Need to Specify an Username for Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#username').addClass('border-2 border-red-500'); }
 
 
  // appending an error message to body if the echoed response is 1 
 
- else if (jsonData.success == "1") { $('body').append("<div id='message_error'><h4>An Account with The Same Username Already Exists</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#username').addClass('border-2 border-red-500'); }
+ else if (jsonData.success == "1") { $('body').append("<div class='message_error'><h4>An Account with The Same Username Already Exists</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#username').addClass('border-2 border-red-500'); }
 
 
  // appending an error message to body if the echoed response is 2 
 
- else if (jsonData.success == "2") { $('body').append("<div id='message_error'><h4>You Need to Specify an Email Address for Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#email').addClass('border-2 border-red-500'); }
+ else if (jsonData.success == "2") { $('body').append("<div class='message_error'><h4>You Need to Specify an Email Address for Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#email').addClass('border-2 border-red-500'); }
 
 
  // appending an error message to body if the echoed response is 3
 
- else if (jsonData.success == "3") { $('body').append("<div id='message_error'><h4>An Account with The Same Email Address Already Exists</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#email').addClass('border-2 border-red-500'); }
+ else if (jsonData.success == "3") { $('body').append("<div class='message_error'><h4>An Account with The Same Email Address Already Exists</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#email').addClass('border-2 border-red-500'); }
 
 
  // appending an error message to body if the echoed response is 4
 
- else if (jsonData.success == "4") { $('body').append("<div id='message_error'><h4>You Need to Specify a Password for Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500');  $('#password').addClass('border-2 border-red-500'); }
+ else if (jsonData.success == "4") { $('body').append("<div class='message_error'><h4>You Need to Specify a Password for Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500');  $('#password').addClass('border-2 border-red-500'); }
 
 
  // appending an error message to body if the echoed response is 5
 
- else if (jsonData.success == "5") { $('body').append("<div id='message_error'><h4>You Need to Confirm the Password which You Specified for Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#confirm_password').addClass('border-2 border-red-500'); }
+ else if (jsonData.success == "5") { $('body').append("<div class='message_error'><h4>You Need to Confirm the Password which You Specified for Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#confirm_password').addClass('border-2 border-red-500'); }
 
 
  // appending an error message to body if the echoed response is 6
 
- else if (jsonData.success == "6") { $('body').append("<div id='message_error'><h4>The Password Did Not Match</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#password, #confirm_password').addClass('border-2 border-red-500');}
+ else if (jsonData.success == "6") { $('body').append("<div class='message_error'><h4>The Password Did Not Match</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#password, #confirm_password').addClass('border-2 border-red-500');}
 
 
  // appending an error message to body if the echoed response is 7
 
- else if (jsonData.success == "7") { $('body').append("<div id='message_error'><h4>You Must Agree with Our Privacy Policy to Continue</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#agreement').addClass('border-red-500'); }
+ else if (jsonData.success == "7") { $('body').append("<div class='message_error'><h4>You Must Agree with Our Privacy Policy to Continue</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#agreement').addClass('border-red-500'); }
 
 
  // switching to the otp form if  the echoed response is 8
 
- else if (jsonData.success == "8") { $('#signUp').hide(); $('input').removeClass('border-2 border-red-500'); $('#otpform').show(); $('body').append("<?php $otp = $_SESSION['otp'] ?? ( $_SESSION['otp'] = rand(100000,999999) );  mail($_POST['email'],"OTP",$otp); ?>"); $('#message_error').hide(); $('#message_success').hide();}
+ else if (jsonData.success == "8") { $('#signUp').hide(); $('input').removeClass('border-2 border-red-500'); $('#otpform').show(); $('body').append("<?php  $otp = $_SESSION['otp'] ?? ( $_SESSION['otp'] = rand(100000,999999) ); mail($email, 'OTP', $otp); echo $email; echo $username; echo $password; ?>");
+ $('.message_error').hide(); $('.message_success').hide();} 
 
 
  // appending an error message to body if the echoed response is something else 
 
- else { $('body').append("<div id='message_error'><h4>An Unknown Error has Occured</h4></div>"); $('input').removeClass('border-2 border-red-500');}
+ else { $('body').append("<div class='message_error'><h4>An Unknown Error has Occured</h4></div>"); $('input').removeClass('border-2 border-red-500');}
 
 
                 },
@@ -227,32 +234,32 @@ $(document).ready(function() {
 
  // appending an error message to body if the echoed response is 9
 
-if (jsonData.success == "9") { $('body').append("<div id='message_error'><h4>You Need to Specify an Username of Your Username or Email</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#username_or_email').addClass('border-2 border-red-500'); }
+if (jsonData.success == "9") { $('body').append("<div class='message_error'><h4>You Need to Specify Username or Email of Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#username_or_email').addClass('border-2 border-red-500'); }
 
 
 // appending an error message to body if the echoed response is 10
 
-else if (jsonData.success == "10") { $('body').append("<div id='message_error'><h4>Account does not Exist</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#username_or_email').addClass('border-2 border-red-500'); }
+else if (jsonData.success == "10") { $('body').append("<div class='message_error'><h4>Account does not Exist</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#username_or_email').addClass('border-2 border-red-500'); }
 
 
 // appending an error message to body if the echoed response is 11
 
-else if (jsonData.success == "11") { $('body').append("<div id='message_error'><h4>You Need to Specify the Password of Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#login_password').addClass('border-2 border-red-500'); }
+else if (jsonData.success == "11") { $('body').append("<div class='message_error'><h4>You Need to Specify the Password of Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#login_password').addClass('border-2 border-red-500'); }
 
 
 // appending an error message to body if the echoed response is 12
 
-else if (jsonData.success == "12") { $('body').append("<div id='message_error'><h4>Wrong Password</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#login_password').addClass('border-2 border-red-500'); }
+else if (jsonData.success == "12") { $('body').append("<div class='message_error'><h4>Wrong Password</h4></div>"); $('input').removeClass('border-2 border-red-500'); $('#login_password').addClass('border-2 border-red-500'); }
 
 
 // appending a success message to body if the echoed response is 13
 
-else if (jsonData.success == "13") { $('body').append("<div id='message_success'><h4>You have Successfully Signed into Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); }
+else if (jsonData.success == "13") { $('body').append("<div class='message_success'><h4>You have Successfully Signed into Your Account</h4></div>"); $('input').removeClass('border-2 border-red-500'); }
 
 
 // appending an error message to body if the echoed response is something else
 
-else { $('body').append("<div id='message_error'><h4>An Unknown Error has Occured</h4></div>"); $('input').removeClass('border-2 border-red-500');}
+else { $('body').append("<div class='message_error'><h4>An Unknown Error has Occured</h4></div>"); $('input').removeClass('border-2 border-red-500');}
 
 
                 },
@@ -266,12 +273,12 @@ else { $('body').append("<div id='message_error'><h4>An Unknown Error has Occure
 
 //Switching from sign up form to sign in form
 
-$("#lSignUp").click(function(){$("#signUp").show(); $("#signIn").hide(); $("#message_error").remove(); $("#message_success").remove();});
+$("#lSignUp").click(function(){$("#signUp").show(); $("#signIn").hide(); $(".message_error").hide(); $(".message_success").hide();});
 
 
 //Switching from sign in form to sign up form
 
-$("#lSignIn").click(function(){$("#signIn").show(); $("#signUp").hide(); $("#message_error").remove(); $("#message_success").remove();});
+$("#lSignIn").click(function(){$("#signIn").show(); $("#signUp").hide(); $(".message_error").hide(); $(".message_success").hide();});
 
 
 //Opening privacy policy section
@@ -288,7 +295,9 @@ $('#close').click(function(){ $('#privpol').hide();});
 </body>
 </html>
 <?php 
- if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+ while (isset($_POST['otp'])) {
+     
+     $input_otp = $_SESSION['input_otp'] ?? $_SESSION['input_otp'] = $_POST['otp'];
 
 //Checking if the input value of otp matches with the otp emailed or not
 
@@ -298,12 +307,7 @@ $('#close').click(function(){ $('#privpol').hide();});
 
 //Injecting the intput values in the database if the input value of otp matches with the otp emailed
 
-$username=filter_var($input_username, FILTER_SANITIZE_STRING);
-$email=filter_var($input_email, FILTER_SANITIZE_EMAIL);
-$hash=password_hash($input_password, PASSWORD_BCRYPT);
-$stmt = $con->prepare('select * from accounts where username= ?');
-$stmt->execute([$username]);
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$hash=password_hash($password, PASSWORD_BCRYPT);
                  $stmt = $con->prepare('insert into accounts (username, email, password) values(?, ?, ?)');
              $stmt->execute([$username, $email, $hash]);
 
@@ -312,6 +316,6 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
       echo $failure; //echoing an error message if the input value of otp didn't match with the otp emailed
 
-} 
+} break;
 }
 ?>
