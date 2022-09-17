@@ -18,14 +18,6 @@ die("Error : ".$e->getMessage()."<br/>");
 $success = "<div class='message_success'><h4>Your Account has been Successfully Created</h4></div><script type='text/javascript' defer>$('input').removeClass('border-2 border-red-500'); </script>'";
 $failure = "<div class='message_error'><h4>Wrong OTP</h4></div><script text/javascript defer>$('#signUp').hide(); $('#otpform').show(); $('#otp').addClass('border-2 border-red-500');</script>";
 
-while($_POST['confirm_password'] != "") {
-$username = $_SESSION['username'] ?? $_SESSION['username'] = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-    
-    $email = $_SESSION['email'] ?? $_SESSION['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    
-    $password = $_SESSION['password'] ?? $_SESSION['password'] = $_POST['password']; 
-    break;
-}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -200,7 +192,7 @@ $(document).ready(function() {
 
  // switching to the otp form if  the echoed response is 8
 
- else if (jsonData.success == "8") { $('#signUp').hide(); $('input').removeClass('border-2 border-red-500'); $('#otpform').show(); $('body').append("<?php  $otp = $_SESSION['otp'] ?? ( $_SESSION['otp'] = rand(100000,999999) ); mail($email, 'OTP', $otp); echo $email; echo $username; echo $password; ?>");
+ else if (jsonData.success == "8") { $('#signUp').hide(); $('input').removeClass('border-2 border-red-500'); $('#otpform').show(); $('body').append("<?php $username = $_SESSION['username'] ?? $_SESSION['username'] = filter_var($_POST['username'], FILTER_SANITIZE_STRING); $email = $_SESSION['email'] ?? $_SESSION['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); $password = $_SESSION['password'] ?? $_SESSION['password'] = $_POST['password'];  $otp = $_SESSION['otp'] ?? ( $_SESSION['otp'] = rand(100000,999999) ); mail($email, 'OTP', $otp); echo $email; echo $username; echo $password; ?>");
  $('.message_error').hide(); $('.message_success').hide();} 
 
 
