@@ -6,7 +6,7 @@ session_start();
 //Connecting to the database
 
 try {
-    $con = new PDO('mysql: host=localhost; dbname=id_db', 'id_dbu', 'password');
+    $con = new PDO('mysql: host=localhost; dbname=id19512279_db', 'id19512279_dbu', '(e8jT%ViCa^r<p=~');
 }
 catch (PDOException $e){
 die("Error : ".$e->getMessage()."<br/>");
@@ -14,10 +14,11 @@ die("Error : ".$e->getMessage()."<br/>");
 
 
 //Declaring the variables
-
+$username = $_POST['username'];
+$email = $_POST['email'];
+$password = $_POST['password'];
 $success = "<div class='message_success'><h4>Your Account has been Successfully Created</h4></div><script type='text/javascript' defer>$('input').removeClass('border-2 border-red-500'); </script>'";
 $failure = "<div class='message_error'><h4>Wrong OTP</h4></div><script text/javascript defer>$('#signUp').hide(); $('#otpform').show(); $('#otp').addClass('border-2 border-red-500');</script>";
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -134,8 +135,6 @@ $failure = "<div class='message_error'><h4>Wrong OTP</h4></div><script text/java
 
 </footer>
 <script type='text/javascript'>
-
-
 //Sign up ajax
 
 $(document).ready(function() {
@@ -192,7 +191,7 @@ $(document).ready(function() {
 
  // switching to the otp form if  the echoed response is 8
 
- else if (jsonData.success == "8") { $('#signUp').hide(); $('input').removeClass('border-2 border-red-500'); $('#otpform').show(); $('body').append("<?php $username = $_SESSION['username'] ?? $_SESSION['username'] = filter_var($_POST['username'], FILTER_SANITIZE_STRING); $email = $_SESSION['email'] ?? $_SESSION['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); $password = $_SESSION['password'] ?? $_SESSION['password'] = $_POST['password'];  $otp = $_SESSION['otp'] ?? ( $_SESSION['otp'] = rand(100000,999999) ); mail($email, 'OTP', $otp); echo $email; echo $username; echo $password; ?>");
+ else if (jsonData.success == "8") { $('#signUp').hide(); $('input').removeClass('border-2 border-red-500'); $('#otpform').show(); $('body').append("<?php $otp = $_SESSION['otp'] ?? ( $_SESSION['otp'] = rand(100000,999999) ); mail($email, 'OTP', $otp); echo $username; echo $password; echo $email; ?>");
  $('.message_error').hide(); $('.message_success').hide();} 
 
 
@@ -287,9 +286,10 @@ $('#close').click(function(){ $('#privpol').hide();});
 </body>
 </html>
 <?php 
+
  while (isset($_POST['otp'])) {
      
-     $input_otp = $_SESSION['input_otp'] ?? $_SESSION['input_otp'] = $_POST['otp'];
+     $input_otp = $_SESSION['input_otp'] ?? $_SESSION['input_otp'] = filter_var($_POST['otp'], FILTER_SANITIZE_NUMBER_INT);
 
 //Checking if the input value of otp matches with the otp emailed or not
 
