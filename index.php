@@ -6,7 +6,7 @@ session_start();
 //Connecting to the database
 
 try {
-    $con = new PDO('mysql: host=localhost; dbname=database', 'username', 'password');
+    $con = new PDO('mysql: host=localhost; dbname=id19512279_db', 'id19512279_dbu', '(e8jT%ViCa^r<p=~');
 }
 catch (PDOException $e){
 die("Error : ".$e->getMessage()."<br/>");
@@ -14,9 +14,21 @@ die("Error : ".$e->getMessage()."<br/>");
 
 
 //Declaring the variables
-$username = $_POST['username'];
-$email = $_POST['email'];
-$password = $_POST['password'];
+global $username;
+global $email;
+global $password;
+while(isset($_POST["username"])){
+    $username = $_SESSION["username"] ?? $_SESSION["username"] = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
+    break;
+}
+while(isset($_POST["email"])){
+    $email = $_SESSION["email"] ?? $_SESSION["email"] = filter_var($_POST["email"], FILTER_SANITIZE_STRING);
+    break;
+}
+while(isset($_POST["password"])){
+    $password = $_SESSION["password"] ?? $_SESSION["password"] = $_POST["password"];
+    break;
+}
 $success = "<div class='message_success'><h4>Your Account has been Successfully Created</h4></div><script type='text/javascript' defer>$('input').removeClass('border-2 border-red-500'); </script>'";
 $failure = "<div class='message_error'><h4>Wrong OTP</h4></div><script text/javascript defer>$('#signUp').hide(); $('#otpform').show(); $('#otp').addClass('border-2 border-red-500');</script>";
 ?>
